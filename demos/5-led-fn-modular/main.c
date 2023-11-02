@@ -17,9 +17,9 @@ int main(void) {
 void greenControl(int on)
 {
   if (on) {
-    P1OUT |= LED_GREEN;
+    P1OUT |= LED_GREEN;  // turn of green led
   } else {
-    P1OUT &= ~LED_GREEN;
+    P1OUT &= ~LED_GREEN;  // turn off green led
   }
 }
 

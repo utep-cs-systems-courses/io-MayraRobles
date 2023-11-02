@@ -6,5 +6,9 @@
 #define LEDS (BIT0 | BIT6)
 
 void greenControl(int on);
+void oncePerSecond();
+extern int blinkLimit;   //  state var representing reciprocal of duty cycle
+                         //  extern to tell the compiler that the variable exists but
+                         //  will be defined in another file
 
 #endif // included

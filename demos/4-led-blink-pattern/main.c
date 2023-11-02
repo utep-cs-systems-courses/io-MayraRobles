@@ -15,28 +15,43 @@ int main(void) {
 }
 
 // global state vars that control blinking
-int blinkLimit = 5;  // duty cycle = 1/blinkLimit
-int blinkCount = 0;  // cycles 0...blinkLimit-1
+int blinkLimitGreen = 7;  // duty cycle = 1/blinkLimit
+int blinkCountGreen = 0;  // cycles 0...blinkLimit-1
 int secondCount = 0; // state var representing repeating time 0…1s
+
+int blinkLimitRed = 0;
+int blinkCountRed = 0;
 
 void
 __interrupt_vec(WDT_VECTOR) WDT()	/* 250 interrupts/sec */
 {
-  // handle blinking 
-  blinkCount ++;
-  if (blinkCount >= blinkLimit) { // on for 1 interrupt period
-    blinkCount = 0;
+  // handle blinking for green LED
+  blinkCountGreen ++;
+  if (blinkCountGreen >= blinkLimitGreen) { // on for 1 interrupt period
+    blinkCountGreen = 0;
     P1OUT |= LED_GREEN;
   } else		          // off for blinkLimit - 1 interrupt periods
     P1OUT &= ~LED_GREEN;
 
+  //handle blinking fore red LED
+  blinkCountRed ++;
+  if (blinkCountRed >= blinkLimitRed) { // on for 1 interrupt period
+    blinkCountRed = 0;
+    P1OUT |= LED_RED;
+  } else {                        // off for blinkLimit - 1 interrupt periods
+    P1OUT &= ~LED_RED;
+  }
+  
   // measure a second
   secondCount ++;
-  if (secondCount >= 250) {  // once each second
+  if (secondCount >= 500) {  // once each two seconds, to make brightness patterns chage slower
     secondCount = 0;
-    blinkLimit ++;	     // reduce duty cycle
-    if (blinkLimit >= 8)     // but don't let duty cycle go below 1/7.
-      blinkLimit = 0;
+    blinkLimitGreen --;           // increase duty cycle, since we want to go from dim-to-bright
+    if (blinkLimitGreen <= 0)     // but don't let duty cycle go below 1/7.
+      blinkLimitGreen = 7;
+    blinkLimitRed ++;             // decrease duty cycle
+    if (blinkLimitRed >= 5)
+      blinkLimitRed = 0;         // don't let duty cycle be more than 4 and no less than 1
   }
 } 
 

@@ -8,6 +8,7 @@
 #define SW1 BIT3		/* switch1 is p1.3 */
 #define SWITCHES SW1		/* only 1 switch on this board */
 
+enum State {R, G};
 void main(void) 
 {  
   configureClocks();
@@ -23,22 +24,21 @@ void main(void)
   or_sr(0x18);  // CPU off, GIE on
 } 
 
+
+/* this function was modified to toggle between green and red when button pressed*/
 void
 switch_interrupt_handler()
 {
-  char p1val = P1IN;		/* switch is in P1 */
-
-/* update switch interrupt sense to detect changes from current buttons */
-  P1IES |= (p1val & SWITCHES);	/* if switch up, sense down */
-  P1IES &= (p1val | ~SWITCHES);	/* if switch down, sense up */
-
-/* up=red, down=green */
-  if (p1val & SW1) {
+  static enum State cur_state = R;
+  
+  if (cur_state == G) {  
     P1OUT |= LED_RED;
     P1OUT &= ~LED_GREEN;
-  } else {
+    cur_state = R;
+  } else if (cur_state == R) {   
     P1OUT |= LED_GREEN;
     P1OUT &= ~LED_RED;
+    cur_state = G;
   }
 }
 
@@ -51,3 +51,26 @@ __interrupt_vec(PORT1_VECTOR) Port_1(){
     switch_interrupt_handler();	/* single handler for all switches */
   }
 }
+
+
+/* This is the orignal switch_interrupt_handler*/
+/*
+void
+switch_interrupt_handler()
+{
+  char p1val = P1IN;		// switch is in P1 
+
+// update switch interrupt sense to detect changes from current buttons 
+  P1IES |= (p1val & SWITCHES);	// if switch up, sense down 
+  P1IES &= (p1val | ~SWITCHES);	// if switch down, sense up 
+
+// up=red, down=green 
+  if (p1val & SW1) {  // if this condition is true, it means button is pressed
+    P1OUT |= LED_RED;
+    P1OUT &= ~LED_GREEN;
+  } else {   // button is not pressed
+    P1OUT |= LED_GREEN;
+    P1OUT &= ~LED_RED;
+  }
+}
+*/

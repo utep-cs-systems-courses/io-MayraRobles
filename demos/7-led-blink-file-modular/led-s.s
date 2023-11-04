@@ -39,11 +39,11 @@ led_update:
 	bis.b r3, &ledFlags
 	
 	mov #0xff, r1		; P1OUT &= (0Xff^LEDS) | ledFlags
-	xor &LEDS, r1
-	bis &ledFlags, r1
-	and r1, &P1OUT
+	xor.b &LEDS, r1
+	bis.b &ledFlags, r1
+	and.b r1, &P1OUT
 
-	bis &ledFlags, &P1OUT
+	bis.b &ledFlags, &P1OUT
 	mov #0, &led_changed
 	pop r0
 	

@@ -1,3 +1,5 @@
+/* This file was modified to implement the suggested activity of implementing
+   different blink sequences where each button press changes it */
 #include <msp430.h>
 #include "libTimer.h"
 
@@ -35,23 +37,24 @@ void main(void)
 } 
 
 static int buttonDown;
+static int blink_sequence_state = 0; /* This destermines the blink sequence to implement*/
 
 void
 switch_interrupt_handler()
 {
-  char p1val = P1IN;		/* switch is in P1 */
-
-/* update switch interrupt sense to detect changes from current buttons */
-  P1IES |= (p1val & SWITCHES);	/* if switch up, sense down */
-  P1IES &= (p1val | ~SWITCHES);	/* if switch down, sense up */
-
-  if (p1val & SW1) {		/* button up */
-    P1OUT &= ~LED_GREEN;
+  char p1val = P1IN;    /* switch is in P1 */
+  
+  P1IES |= (p1val & SWITCHES);  /* if switch up, sense down */
+  P1IES &= (p1val | ~SWITCHES);  /* if switch down, sense up */
+  
+  if (p1val & SW1) {    /* button up */
     buttonDown = 0;
-  } else {			/* button down */
-    P1OUT |= LED_GREEN;
+  } else {      /* button down */
     buttonDown = 1;
   }
+  
+  /* Every time there is a button pressed, change sequence state*/
+  blink_sequence_state = (blink_sequence_state + 1) % 2; 
 }
 
 
@@ -68,13 +71,40 @@ void
 __interrupt_vec(WDT_VECTOR) WDT()	/* 250 interrupts/sec */
 {
   static int blink_count = 0;
-  switch (blink_count) { 
-  case 6: 
-    blink_count = 0;
-    P1OUT |= LED_RED;
+  
+  switch(blink_sequence_state) {
+  case 0: /* Red LED blinking sequence*/
+    switch (blink_count) { 
+     case 6: 
+       blink_count = 0;
+       P1OUT |= LED_RED;
+       break;
+     default:
+       blink_count ++;
+       P1OUT &= ~LED_RED;
+    }
     break;
-  default:
-    blink_count ++;
-    if (!buttonDown) P1OUT &= ~LED_RED; /* don't blink off if button is down */
+  case 1: /* Green LED blinking sequence*/
+     switch (blink_count) { 
+     case 6: 
+       blink_count = 0;
+       P1OUT |= LED_GREEN;
+       break;
+     default:
+       blink_count ++;
+       P1OUT &= ~LED_GREEN;
+    }
+    break;
+    // For later
+    /*case 2: /* Both LEDS blinking sequence
+    switch (blink_count) { 
+     case 125: 
+       blink_count = 0;
+       P1OUT ^= LEDS; /* Toggle red and green LEDS
+       break;
+     default:
+       blink_count ++;
+    }
+    break ;*/
   }
 } 

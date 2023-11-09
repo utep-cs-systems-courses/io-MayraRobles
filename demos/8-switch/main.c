@@ -8,7 +8,9 @@
 #define SW1 BIT3		/* switch1 is p1.3 */
 #define SWITCHES SW1		/* only 1 switch on this board */
 
-enum State {R, G};
+enum State {RED, GREEN};
+static enum State cur_state = RED;
+
 void main(void) 
 {  
   configureClocks();
@@ -29,19 +31,26 @@ void main(void)
 void
 switch_interrupt_handler()
 {
-  static enum State cur_state = R;
-  
-  if (cur_state == G) {  
-    P1OUT |= LED_RED;
-    P1OUT &= ~LED_GREEN;
-    cur_state = R;
-  } else if (cur_state == R) {   
-    P1OUT |= LED_GREEN;
-    P1OUT &= ~LED_RED;
-    cur_state = G;
-  }
-}
+  char p1val = P1IN;/* switch is in P1 */
 
+  /* update switch interrupt sense to detect changes from current buttons */
+  P1IES |= (p1val & SWITCHES);/* if switch up, sense down */
+  P1IES &= (p1val | ~SWITCHES);/* if switch down, sense up */
+
+  /* up=keep same, down=change */
+  if (p1val & SW1) { /* Pressed */
+    if (cur_state == RED) {
+      P1OUT |= LED_GREEN;
+      P1OUT &= ~LED_RED;
+      cur_state = GREEN;
+    } else if (cur_state == GREEN) {
+      P1OUT |= LED_RED;
+      P1OUT &= ~LED_GREEN;
+      cur_state = RED;
+    }
+  }
+ 
+}
 
 /* Switch on P1 (S2) */
 void

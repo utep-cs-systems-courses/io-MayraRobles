@@ -37,7 +37,7 @@ void main(void)
 } 
 
 static int buttonDown;
-enum State {RED, GREEN};
+enum State {RED, GREEN, BOTH};
 static enum State cur_state = RED; /* This destermines the blink sequence to implement */
 
 void
@@ -50,7 +50,7 @@ switch_interrupt_handler()
   
   if (p1val & SW1) {    /* button pressed */
     /* Every time a button pressed, change sequence state*/
-    cur_state = (cur_state + 1) % 2;
+    cur_state = (cur_state + 1) % 3;
   } 
   
  }
@@ -94,16 +94,17 @@ __interrupt_vec(WDT_VECTOR) WDT()	/* 250 interrupts/sec */
       P1OUT &= ~LED_GREEN;
     }
     break;
-    // For later
-    /*case 2: /* Both LEDS blinking sequence
+  case BOTH: /* Both LEDS blinking sequence */
+    P1OUT &= ~LED_GREEN;
+    P1OUT |= RED;
     switch (blink_count) { 
      case 125: 
        blink_count = 0;
-       P1OUT ^= LEDS; /* Toggle red and green LEDS
+       P1OUT ^= LEDS; /* Toggle red and green LEDS */
        break;
      default:
        blink_count ++;
     }
-    break ;*/
+    break;
   }
 } 

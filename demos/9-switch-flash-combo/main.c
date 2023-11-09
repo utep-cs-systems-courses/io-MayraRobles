@@ -122,9 +122,10 @@ __interrupt_vec(WDT_VECTOR) WDT()	/* 250 interrupts/sec */
       char ledFlags = redVal[red_on] | greenVal[green_on];
       P1OUT &= (0xff^LEDS) | ledFlags; // clear bit for off leds
       P1OUT |= ledFlags;     // set bit for on leds
-    break;
+      break;
+    default:
+      blink_count ++;
+      break;
     }
-  default:
-    blink_count ++;
-  } 
+  }
 }

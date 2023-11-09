@@ -99,7 +99,6 @@ __interrupt_vec(WDT_VECTOR) WDT()	/* 250 interrupts/sec */
     switch (blink_count) {
     case 125:
       blink_count = 0;
-      static int binary_count = 0;
       binary_count = (binary_count + 1) % 4; // Increment binary count and take modulo
       switch (binary_count) {
       case 0:

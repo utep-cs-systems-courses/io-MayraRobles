@@ -3,8 +3,8 @@
 #include <msp430.h>
 #include "libTimer.h"
 
-#define LED_RED BIT0               // P1.0
-#define LED_GREEN BIT6             // P1.6
+#define LED_GREEN BIT0             // P1.0
+#define LED_RED BIT6               // P1.6
 #define LEDS (LED_RED | LED_GREEN)
 
 #define SW1 BIT3		/* switch1 is p1.3 */
@@ -36,7 +36,7 @@ void main(void)
   or_sr(0x18);  // CPU off, GIE on
 } 
 
-enum State {RED, GREEN, BOTH};
+enum State {RED, GREEN, JUST_RED};
 static enum State cur_state = RED; /* this destermines the blink sequence to implement */
 static char redVal[] = {0, LED_RED}, greenVal[] = {0, LED_GREEN};
 unsigned char red_on = 0, green_on = 0;
@@ -94,45 +94,13 @@ __interrupt_vec(WDT_VECTOR) WDT()	/* 250 interrupts/sec */
       P1OUT &= ~LED_GREEN;
     }
     break;
-  case BOTH: /* both LEDS blinking sequence */
-    blink_count ++;
-    P1OUT &= ~LED_GREEN;
+  case JUST_RED: /* Just red on */
+    blink_count = 0;
+    //P1OUT &= ~LED_GREEN;
+    P1OUT &= ~LEDS;
     P1OUT |= LED_RED;
-    /*switch (blink_count) {
-    case 0:  // to start the blinking pattern, green off, red on 
-      P1OUT &= ~LED_GREEN;
-      P1OUT |= LED_RED;
-      blink_count ++;
-      break;
-    case 125:
-      blink_count = 0;
-      static int binary_count = 0;
-      binary_count = (binary_count + 1) % 4; // Increment binary count and take modulo
-      switch (binary_count) {
-      case 0:
-	red_on = 0;
-	green_on = 0;
-	break;
-      case 1:
-	red_on = 0;
-	green_on = 1;
-	break;
-      case 2:
-	red_on = 1;
-	green_on = 0;
-	break;
-      case 3:
-	red_on = 1;
-	green_on = 1;
-	break;
-      }
-      char ledFlags = redVal[red_on] | greenVal[green_on];
-      P1OUT &= (0xff^LEDS) | ledFlags; // clear bit for off leds
-      P1OUT |= ledFlags;     // set bit for on leds
-      break;
-    default:
-       blink_count ++;
-       } */
     break;
-    } 
-} 
+  default:
+    blink_count ++;
+  } 
+}

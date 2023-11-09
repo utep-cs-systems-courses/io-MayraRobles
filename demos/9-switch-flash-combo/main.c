@@ -53,7 +53,6 @@ switch_interrupt_handler()
     /* Every time a button pressed, change sequence state */
     cur_state = (cur_state + 1) % 3;
   } 
-  
  }
 
 
@@ -97,8 +96,8 @@ __interrupt_vec(WDT_VECTOR) WDT()	/* 250 interrupts/sec */
     break;
   case BOTH: /* both LEDS blinking sequence */
     blink_count ++;
+    P1OUT &= ~LED_GREEN;
     P1OUT |= LED_RED;
-    P1OUT &= LED_GREEN;
     /*switch (blink_count) {
     case 0:  // to start the blinking pattern, green off, red on 
       P1OUT &= ~LED_GREEN;

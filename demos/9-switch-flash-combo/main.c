@@ -38,6 +38,8 @@ void main(void)
 
 enum State {RED, GREEN, BOTH};
 static enum State cur_state = RED; /* this destermines the blink sequence to implement */
+static char redVal[] = {0, LED_RED}, greenVal[] = {0, LED_GREEN};
+unsigned char red_on = 0, green_on = 0;
 
 void
 switch_interrupt_handler()
@@ -94,19 +96,44 @@ __interrupt_vec(WDT_VECTOR) WDT()	/* 250 interrupts/sec */
     }
     break;
   case BOTH: /* both LEDS blinking sequence */
-    switch (blink_count) {
-    case 0:  /* to start the blinking pattern, green off, red on */
+    blink_count ++;
+    P1OUT |= LED_RED;
+    P1OUT &= LED_GREEN;
+    /*switch (blink_count) {
+    case 0:  // to start the blinking pattern, green off, red on 
       P1OUT &= ~LED_GREEN;
       P1OUT |= LED_RED;
       blink_count ++;
       break;
     case 125:
       blink_count = 0;
-      P1OUT ^= LEDS; /* Toggle red and green LEDS */
+      static int binary_count = 0;
+      binary_count = (binary_count + 1) % 4; // Increment binary count and take modulo
+      switch (binary_count) {
+      case 0:
+	red_on = 0;
+	green_on = 0;
+	break;
+      case 1:
+	red_on = 0;
+	green_on = 1;
+	break;
+      case 2:
+	red_on = 1;
+	green_on = 0;
+	break;
+      case 3:
+	red_on = 1;
+	green_on = 1;
+	break;
+      }
+      char ledFlags = redVal[red_on] | greenVal[green_on];
+      P1OUT &= (0xff^LEDS) | ledFlags; // clear bit for off leds
+      P1OUT |= ledFlags;     // set bit for on leds
       break;
     default:
        blink_count ++;
-    }
+       } */
     break;
-  }
+    } 
 } 

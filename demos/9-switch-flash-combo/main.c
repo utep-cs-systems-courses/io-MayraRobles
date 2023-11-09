@@ -49,12 +49,12 @@ switch_interrupt_handler()
   
   if (p1val & SW1) {    /* button up */
     buttonDown = 0;
-  } else {      /* button down */
+ } else {      /* button down */
     buttonDown = 1;
   }
   
   /* Every time there is a button pressed, change sequence state*/
-  blink_sequence_state = (blink_sequence_state + 1) % 2; 
+  blink_sequence_state = (blink_sequence_state + 1);
 }
 
 
@@ -71,7 +71,6 @@ void
 __interrupt_vec(WDT_VECTOR) WDT()	/* 250 interrupts/sec */
 {
   static int blink_count = 0;
-  
   switch(blink_sequence_state) {
   case 0: /* Red LED blinking sequence*/
     switch (blink_count) { 
@@ -84,7 +83,9 @@ __interrupt_vec(WDT_VECTOR) WDT()	/* 250 interrupts/sec */
        P1OUT &= ~LED_RED;
     }
     break;
-  case 1: /* Green LED blinking sequence*/
+  case 1:
+    break;
+  case 2: /* Green LED blinking sequence*/
      switch (blink_count) { 
      case 6: 
        blink_count = 0;
@@ -94,6 +95,9 @@ __interrupt_vec(WDT_VECTOR) WDT()	/* 250 interrupts/sec */
        blink_count ++;
        P1OUT &= ~LED_GREEN;
     }
+    break;
+  case 3:
+    blink_sequence_state = 0;
     break;
     // For later
     /*case 2: /* Both LEDS blinking sequence

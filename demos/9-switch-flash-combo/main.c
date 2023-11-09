@@ -41,18 +41,19 @@ static enum State cur_state = RED; /* this destermines the blink sequence to imp
 static char redVal[] = {0, LED_RED}, greenVal[] = {0, LED_GREEN};
 unsigned char red_on = 0, green_on = 0;
 static unsigned char binary_count = 0;
+static int blink_count = 0;
 
 void
 switch_interrupt_handler()
 {
   char p1val = P1IN;    /* switch is in P1 */
-  
   P1IES |= (p1val & SWITCHES);  /* if switch up, sense down */
   P1IES &= (p1val | ~SWITCHES);  /* if switch down, sense up */
   
   if (p1val & SW1) {    /* button pressed */
     /* Every time a button pressed, change sequence state */
     cur_state = (cur_state + 1) % 3;
+    blink_count = 0;
   } 
  }
 
@@ -69,7 +70,6 @@ __interrupt_vec(PORT1_VECTOR) Port_1(){
 void
 __interrupt_vec(WDT_VECTOR) WDT()	/* 250 interrupts/sec */
 {
-  static int blink_count = 0;
   switch(cur_state) {
   case RED: /* red LED blinking sequence*/
     P1OUT &= ~LED_GREEN;

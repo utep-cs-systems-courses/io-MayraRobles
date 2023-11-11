@@ -1,6 +1,7 @@
 #include <msp430.h>
 #include "libTimer.h"
 #include "buzzer.h"
+#include "notes.h"
 
 void buzzer_init()
 {
@@ -18,6 +19,7 @@ void buzzer_init()
     P2DIR = BIT6;		/* enable output to speaker (P2.6) */
 }
 
+
 void buzzer_set_period(short cycles) /* buzzer clock = 2MHz.  (period of 1k results in 2kHz tone) */
 {
   CCR0 = cycles; 
@@ -25,7 +27,63 @@ void buzzer_set_period(short cycles) /* buzzer clock = 2MHz.  (period of 1k resu
 }
 
 
-    
-    
+void state_advance_song()
+{
+  static char cur_note = 0;
   
-
+  switch (cur_note) {
+  case 0:
+    buzzer_set_period(A5);
+    cur_note ++;
+    break;
+  case 1:
+    buzzer_set_period(0);
+    cur_note ++;
+    break;
+  case 2:
+    buzzer_set_period(F5_SHARP);
+    cur_note ++;
+    break;
+  case 3:
+    buzzer_set_period(0);
+    cur_note ++;
+    break;
+  case 4:
+    buzzer_set_period(G5);
+    cur_note ++;
+    break;
+  case 5:
+    buzzer_set_period(0);
+    cur_note ++;
+    break;
+  case 6:
+    buzzer_set_period(A5);
+    cur_note ++;
+    break;
+  case 7:
+    buzzer_set_period(0);
+    cur_note ++;
+    break;
+  case 8:
+    buzzer_set_period(F5_SHARP);
+    cur_note ++;
+    break;
+  case 9:
+    buzzer_set_period(0);
+    cur_note ++;
+    break;
+  case 10:
+    buzzer_set_period(G5);
+    cur_note ++;
+    break;
+  case 11:
+    buzzer_set_period(0);
+    cur_note ++;
+    break;
+  case 12:
+    buzzer_set_period(A5);
+    cur_note ++;
+    break; 
+  }
+ }
+    

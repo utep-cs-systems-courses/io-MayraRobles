@@ -27,13 +27,15 @@ void
 switch_interrupt_handler()
 {
   char p2val = switch_update_interrupt_sense();
+  int switches = ~p2val & SWITCHES;
 
-  if ((p2val & SW1) == 0) //Button 1 was pressed
+  
+  if (switches & SW1) //Button 1 was pressed
     sound_sequence_state = 0;
-  else if ((p2val & SW2) == 0) //Button 2 was pressed
+  else if (switches & SW2) //Button 2 was pressed
     sound_sequence_state = 1;
-  else if ((p2val & SW3) == 0) //Button 3 was pressed
+  else if (switches & SW3) //Button 3 was pressed
     sound_sequence_state = 2;
-  else if ((p2val & SW4) == 0) //Button 4 was pressed
+  else if (switches & SW4) //Button 4 was pressed
     sound_sequence_state = 3;
 }

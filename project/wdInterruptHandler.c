@@ -1,9 +1,11 @@
 #include <msp430.h>
 #include "buzzer.h"
+#include "led.h"
+#include "switches.h"
 #include "stateMachines.h"
 
 int secondCount = 0;
-char sound_sequence_state = -1;
+char sound_sequence_state = 0;
 
 void
 __interrupt_vec(WDT_VECTOR) WDT(){ /* 250 interrupts/sec */
@@ -17,7 +19,7 @@ __interrupt_vec(WDT_VECTOR) WDT(){ /* 250 interrupts/sec */
     }
     break;
   case 1:
-    if(secondCount >= 25) {
+    if(secondCount >= 125) {
       siren_state_advance();
       secondCount = 0;
     }

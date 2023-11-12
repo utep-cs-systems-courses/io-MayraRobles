@@ -65,21 +65,22 @@ void siren_state_advance()
   case 0: // tone up 
     green_on = 1;
     red_on = 0;
-    buzzer_set_period(2760);
+    led_update();
+    //buzzer_set_period(2760);
     siren_state++;
     break; 
-  case 1: // tone up
+    /*case 1: // tone up
     buzzer_set_period(2105);
     siren_state++;
-    break;
-   case 2: // tone down  
+    break;*/
+  case 1: // tone down  
     green_on = 0;
     red_on = 1;
-    buzzer_set_period(4000);
+    led_update();
+    //buzzer_set_period(4000);
     siren_state = 0;
     break;
   }
-  led_update();
 }
 
 
@@ -126,7 +127,6 @@ void binary_count_state_advance()
     green_on = 1;
     break;
   }
-  led_update();
 }
  
 
@@ -134,6 +134,7 @@ void update_blink_and_buzz(int frequency)
 {
   buzzer_set_period(frequency);
   binary_count_state_advance();
+  led_update();
   cur_note ++;
 }
  

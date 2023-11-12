@@ -1,7 +1,7 @@
 #include <msp430.h>
 #include "switches.h"
 #include "stateMachines.h"
-
+#include "buzzer.h"
 
 char switch_state_down, switch_state_changed; /* effectively boolean */
 
@@ -27,23 +27,43 @@ switch_init()/* setup switch */
   switch_update_interrupt_sense();
 }
 
-
-void
-switch_interrupt_handler()
+// Add a delay function to introduce a short delay for debouncing
+void debounce()
 {
+  __delay_cycles(1000); // Adjust the delay as needed
+}
+
+void 
+switch_interrupt_handler()
+{ 
+  __disable_interrupt();
+  
   char p2val = switch_update_interrupt_sense();
     
   /* Everytime a button is pressed, change sequence state*/
-  if ((p2val & SW1) == 0) //Button 1 was pressed
-    sound_sequence_state = 0;
-  else if ((p2val & SW2) == 0) //Button 2 was pressed
+  if ((p2val & SW1) == 0){ //Button 1 was pressed
+    debounce();
+    buzzer_set_period(0);
+    sound_sequence_state = 0;  
+  }
+  else if ((p2val & SW2) == 0){ //Button 2 was pressed
+    debounce();
+    buzzer_set_period(0);
     sound_sequence_state = 1;
-  else if ((p2val & SW3) == 0) //Button 3 was pressed
+  }
+  else if ((p2val & SW3) == 0){ //Button 3 was pressed
+    debounce();
+    buzzer_set_period(0);
     sound_sequence_state = 2;
+    secondCount = 0;
+  }
   else if ((p2val & SW4) == 0){ //Button 4 was pressed
+    debounce();
+    buzzer_set_period(0);
     sound_sequence_state = 3;
     red_green_toggle_state_advance();
   }
+  __enable_interrupt();
 }
 
 

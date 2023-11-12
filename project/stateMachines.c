@@ -1,8 +1,14 @@
-#include <msp430.h>
+#include <msp430.h> 
 #include "stateMachines.h"
 #include "led.h"
 #include "buzzer.h"
 #include "notes.h"
+
+void update_blink_and_buzz(int frequency)
+{
+  buzzer_set_period(frequency);
+  cur_note ++;
+}
 
 void canon_in_D_state_advance() /* Plays canon in D */
 {
@@ -10,452 +16,340 @@ void canon_in_D_state_advance() /* Plays canon in D */
  
   switch (cur_note) {
   case 0:
-    buzzer_set_period(A5);
-    cur_note ++;
+    update_blink_and_buzz(A5);
     break;
   case 1:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 2:
-    buzzer_set_period(F5_SHARP);
-    cur_note ++;
+    update_blink_and_buzz(F5_SHARP);
     break;
   case 3:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 4:
-    buzzer_set_period(G5);
-    cur_note ++;
+    update_blink_and_buzz(G5);
     break;
   case 5:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 6:
-    buzzer_set_period(A5);
-    cur_note ++;
+    update_blink_and_buzz(A5);
     break;
   case 7:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 8:
-    buzzer_set_period(F5_SHARP);
-    cur_note ++;
+    update_blink_and_buzz(F5_SHARP);
     break;
   case 9:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 10:
-    buzzer_set_period(G5);
-    cur_note ++;
+    update_blink_and_buzz(G5);
     break;
   case 11:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 12:
-    buzzer_set_period(A5);
-    cur_note ++;
+    update_blink_and_buzz(A5);
     break;
   case 13:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 14:
-    buzzer_set_period(A4);
-    cur_note ++;
+    update_blink_and_buzz(A4);
     break;
   case 15:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 16:
-    buzzer_set_period(B4);
-    cur_note ++;
+    update_blink_and_buzz(B4);
     break;
   case 17:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 18:
-    buzzer_set_period(Db5);
-    cur_note ++;
+    update_blink_and_buzz(Db5);
     break;
   case 19:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 20:
-    buzzer_set_period(D5);
-    cur_note ++;
+    update_blink_and_buzz(D5);
     break;
   case 21:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 22:
-    buzzer_set_period(E5);
-    cur_note ++;
+    update_blink_and_buzz(E5);
     break;
   case 23:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 24:
-    buzzer_set_period(F5_SHARP);
-    cur_note ++;
+    update_blink_and_buzz(F5_SHARP);
     break;
   case 25:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 26:
-    buzzer_set_period(G5);
-    cur_note ++;
+    update_blink_and_buzz(G5);
     break;
   case 27:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 28:
-    buzzer_set_period(F5_SHARP);
-    cur_note ++;
+    update_blink_and_buzz(F5_SHARP);
     break;
   case 29:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 30:
-    buzzer_set_period(D5);
-    cur_note ++;
+    update_blink_and_buzz(D5);  
     break;
   case 31:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 32:
-    buzzer_set_period(E5);
-    cur_note ++;
+    update_blink_and_buzz(E5);
     break;
   case 33:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 34:
-    buzzer_set_period(F5_SHARP);
-    cur_note ++;
+    update_blink_and_buzz(F5_SHARP);
     break;
   case 35:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 36:
-    buzzer_set_period(F4_SHARP);
-    cur_note ++;
+    update_blink_and_buzz(F4_SHARP);
     break;
   case 37:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 38:
-    buzzer_set_period(G4);
-    cur_note ++;
+    update_blink_and_buzz(G4);
     break;
   case 39:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 40:
-    buzzer_set_period(A4);
-    cur_note ++;
+    update_blink_and_buzz(A4);
     break;
   case 41:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 42:
-    buzzer_set_period(B4);
-    cur_note ++;
+    update_blink_and_buzzer(G4);
     break;
   case 43:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 44:
-    buzzer_set_period(A4);
-    cur_note ++;
+    update_blink_and_buzz(A4);
     break;
   case 45:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 46:
-    buzzer_set_period(G4);
-    cur_note ++;
+    update_blink_and_buzz(G4);
     break;
   case 47:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 48:
-    buzzer_set_period(A4);
-    cur_note ++;
+    update_blink_and_buzz(A4);
     break;
   case 49:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 50:
-    buzzer_set_period(F4_SHARP);
-    cur_note ++;
+    update_blink_and_buzz(F4_SHARP);
     break;
   case 51:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 52:
-    buzzer_set_period(G4);
-    cur_note ++;
+    update_blink_and_buzz(G4);
     break;
   case 53:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 54:
-    buzzer_set_period(A4);
-    cur_note ++;
+    update_blink_and_buzz(A4);
     break;
   case 55:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 56:
-    buzzer_set_period(G4);
-    cur_note ++;
+    update_blink_and_buzz(A4);
     break;
   case 57:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 58:
-    buzzer_set_period(B4);
-    cur_note ++;
+    update_blink_and_buzz(B4);
     break;
   case 59:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 60:
-    buzzer_set_period(A4);
-    cur_note ++;
+    update_blink_and_buzz(A4);
     break;
   case 61:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 62:
-    buzzer_set_period(G4);
-    cur_note ++;
+    update_blink_and_buzz(G4);
     break;
   case 63:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 64:
-    buzzer_set_period(F4_SHARP);
-    cur_note ++;
+    update_blink_and_buzz(F4_SHARP);
     break;
   case 65:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 66:
-    buzzer_set_period(E4);
-    cur_note ++;
+    update_blink_and_buzz(E4);
     break;
   case 67:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 68:
-    buzzer_set_period(F4_SHARP);
-    cur_note ++;
+    update_blink_and_buzz(F4_SHARP);
     break;
   case 69:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 70:
-    buzzer_set_period(E4);
-    cur_note ++;
+    update_blink_and_buzz(E4);
     break;
   case 71:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 72:
-    buzzer_set_period(D4);
-    cur_note ++;
+    update_blink_and_buzz(D4);
     break;
   case 73:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 74:
-    buzzer_set_period(E4);
-    cur_note ++;
+    update_blink_and_buzz(E4);
     break;
   case 75:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 76:
-    buzzer_set_period(F4_SHARP);
-    cur_note ++;
+    update_blink_and_buzz(F4_SHARP);
     break;
   case 77:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 78:
-    buzzer_set_period(G4);
-    cur_note ++;
+    update_blink_and_buzz(G4);
     break;
   case 79:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 80:
-    buzzer_set_period(A4);
-    cur_note ++;
+    update_blink_and_buzz(A4);
     break;
   case 81:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 82:
-    buzzer_set_period(B4);
-    cur_note ++;
+    update_blink_and_buzz(B4);
     break;
   case 83:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 84:
-    buzzer_set_period(G4);
-    cur_note ++;
+    update_blink_and_buzz(G4);
     break;
   case 85:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 86:
-    buzzer_set_period(B4);
-    cur_note ++;
+    update_blink_and_buzz(A4);
     break;
   case 87:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 88:
-    buzzer_set_period(A4);
-    cur_note ++;
+    update_blink_and_buzz(A4);
     break;
   case 89:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 90:
-    buzzer_set_period(B4);
-    cur_note ++;
+    update_blink_and_buzz(B4);
     break;
   case 91:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 92:
-    buzzer_set_period(Db5);
-    cur_note ++;
+    update_blink_and_buzz(Db5);
     break;
   case 93:
-    buzzer_set_period(0);
-    cur_note ++; 
+    update_blink_and_buzz(0);
     break;
   case 94:
-    buzzer_set_period(D5);
-    cur_note ++;
+    update_blink_and_buzz(D5);
     break;
   case 95:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 96:
-    buzzer_set_period(A4);
-    cur_note ++;
+    update_blink_and_buzz(A4);
     break;
   case 97:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 98:
-    buzzer_set_period(B4);
-    cur_note ++;
+    update_blink_and_buzz(B4);
     break;
   case 99:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 100:
-    buzzer_set_period(Db5);
-    cur_note ++;
+    update_blink_and_buzz(Db5);
     break;
   case 101:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 102:
-    buzzer_set_period(D5);
-    cur_note ++;
+    update_blink_and_buzz(D5);
     break;
   case 103:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 104:
-    buzzer_set_period(E5);
-    cur_note ++;
+    update_blink_and_buzz(E5);
     break;
   case 105:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 106:
-    buzzer_set_period(F5_SHARP);
-    cur_note ++;
+    update_blink_and_buzz(F5_SHARP);
     break;
   case 107:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 108:
-    buzzer_set_period(G5);
-    cur_note ++;
+    update_blink_and_buzz(G5);
     break;
   case 109:
-    buzzer_set_period(0);
-    cur_note ++;
+    update_blink_and_buzz(0);
     break;
   case 110:
-    buzzer_set_period(A5);
-    cur_note ++;
+    update_blink_and_buzz(A5);
     break;
   case 111:
-    buzzer_set_period(0);
-    cur_note = 0;
+    update_blink_and_buzz(0);
     break;
   } 
 }

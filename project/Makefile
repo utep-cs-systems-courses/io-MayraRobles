@@ -1,6 +1,6 @@
 COMMON_OBJECTS  =
 CPU             = msp430g2553
-CFLAGS          = -mmcu=${CPU} -I../h
+CFLAGS          = -mmcu=${CPU} -I h
 LDFLAGS		= -L/opt/ti/msp430_gcc/include
 
 
@@ -13,7 +13,7 @@ all: toy.elf
 
 
 #additional rules for files
-toy.elf: ${COMMON_OBJECTS} blinkBuzMain.o switches.o stateMachines.o buzzer.o led.o wdInterruptHandler.o p2_interrupt_handler.o lib/libTimer.a
+toy.elf: ${COMMON_OBJECTS} blinkBuzMain.o switches.o stateMachines.o buzzer.o led.o wdInterruptHandler.o p2InterruptHandler.o lib/libTimer.a
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^
 
 
@@ -37,7 +37,7 @@ stateMachines.o: led.h stateMachines.h buzzer.h notes.h
 buzzer.o: buzzer.h
 
 
-p2_interrupt_handler.o : switches.h
+p2InterruptHandler.o : switches.h
 
 
 switches.o: switches.h led.h

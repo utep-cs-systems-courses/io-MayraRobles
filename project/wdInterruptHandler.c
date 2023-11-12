@@ -1,16 +1,18 @@
 #include <msp430.h>
+#include "buzzer.h"
 #include "stateMachines.h"
 
 int secondCount = 0;
-char sound_sequence_state = 3;
+char sound_sequence_state = 0;
 
 void
 __interrupt_vec(WDT_VECTOR) WDT(){ /* 250 interrupts/sec */
   secondCount ++;
+  
   switch(sound_sequence_state) {
   case 0:
     if(secondCount >= 40) {
-      state_advance_song();
+      canon_in_D_state_advance();
       secondCount = 0;
     }
     break;

@@ -345,6 +345,10 @@ void canon_in_D_state_advance() /* Plays canon in D */
     buzzer_set_period(0);
     cur_note ++;
     break;
+  case 84:
+    buzzer_set_period(G4);
+    cur_note ++;
+    break;
   case 85:
     buzzer_set_period(0);
     cur_note ++;

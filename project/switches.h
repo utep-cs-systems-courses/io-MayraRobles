@@ -10,10 +10,13 @@
 
 #define SWITCHES (SW1 | SW2 | SW3 | SW4) /* 4 switches on the board */
 
+
 void switch_init();
 static char switch_update_interrupt_sense();
 void switch_interrupt_handler();
 
+
 extern char switch_state_down, switch_state_changed; /* effectively boolean */
 extern char sound_sequence_state;
-#endif // included
+
+ #endif // included

@@ -1,3 +1,9 @@
+#include <msp430.h>
+#include "stateMachines.h"
+#include "led.h"
+#include "buzzer.h"
+#include "notes.h"
+
 void canon_in_D_state_advance() /* Plays canon in D */
 {
   static int cur_note = 0;

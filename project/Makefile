@@ -13,7 +13,7 @@ all: toy.elf
 
 
 #additional rules for files
-toy.elf: ${COMMON_OBJECTS} blinkBuzMain.o switches.o stateMachines.o buzzer.o led.o wdInterruptHandler.o p2_interrupt_handler.o ../lib/libTimer.a
+toy.elf: ${COMMON_OBJECTS} blinkBuzMain.o switches.o stateMachines.o buzzer.o led.o wdInterruptHandler.o p2_interrupt_handler.o lib/libTimer.a
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^
 
 

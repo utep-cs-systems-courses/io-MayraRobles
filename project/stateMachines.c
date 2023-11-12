@@ -88,15 +88,18 @@ void red_green_toggle_state_advance()
 {
   enum State {RED, GREEN};
   static enum State cur_state = RED;
-  
-  /* up=keep same, dow n=change */
+
+  buzzer_set_period(1000);
   if (cur_state == RED){
     red_on = 1;
-    green_on = 0; 
+    green_on = 0;
+    //buzzer_set_period(1000);
+    //buzzer_set_period(A5);
     cur_state = GREEN;
   } else if (cur_state == GREEN){
     green_on = 1;
     red_on = 0;
+    buzzer_set_period(G5);
     cur_state = RED;
   }
   led_update();

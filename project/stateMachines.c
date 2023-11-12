@@ -83,28 +83,27 @@ void siren_state_advance()
 }
 
 
-void red_green_toggle_state_advance(char button_pressed)
+void red_green_toggle_state_advance()
 {
   enum State {RED, GREEN};
   static enum State cur_state = RED;
   
-  /* up=keep same, down=change */
-  if (button_pressed){
-    if (cur_state == RED){
-      red_on = 1;
-      green_on = 0; 
-      cur_state = GREEN;
-    } else if (cur_state == GREEN){
-      green_on = 1;
-      red_on = 0;
-      cur_state = RED;
-    }
+  /* up=keep same, dow n=change */
+  if (cur_state == RED){
+    red_on = 1;
+    green_on = 0; 
+    cur_state = GREEN;
+  } else if (cur_state == GREEN){
+    green_on = 1;
+    red_on = 0;
+    cur_state = RED;
   }
+  led_update();
 }
 
 
 void binary_count_state_advance()
-{
+  {
   static int binary_count_state = 0;
 
   binary_count_state = (binary_count_state + 1) % 4; // Increment binary count and take modulo

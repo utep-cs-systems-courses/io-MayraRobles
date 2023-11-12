@@ -22,7 +22,7 @@ load: toy.elf
 
 
 clean:
-	rm -f *.o *.c~ *.c# *.h~ *.elf
+	rm -f *.o *.c~ *.c# *.h~ *~ *.elf
 
 
 led.o: led.c led.h

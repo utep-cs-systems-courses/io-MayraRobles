@@ -1,5 +1,6 @@
 #include <msp430.h>
 #include "switches.h"
+#include "stateMachines.h"
 
 
 char switch_state_down, switch_state_changed; /* effectively boolean */
@@ -31,7 +32,7 @@ void
 switch_interrupt_handler()
 {
   char p2val = switch_update_interrupt_sense();
-
+    
   /* Everytime a button is pressed, change sequence state*/
   if ((p2val & SW1) == 0) //Button 1 was pressed
     sound_sequence_state = 0;
@@ -41,6 +42,7 @@ switch_interrupt_handler()
     sound_sequence_state = 2;
   else if ((p2val & SW4) == 0){ //Button 4 was pressed
     sound_sequence_state = 3;
+    red_green_toggle_state_advance();
   }
 }
 

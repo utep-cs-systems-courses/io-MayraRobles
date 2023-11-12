@@ -39,8 +39,9 @@ switch_interrupt_handler()
     sound_sequence_state = 1;
   else if ((p2val & SW3) == 0) //Button 3 was pressed
     sound_sequence_state = 2;
-  else if ((p2val & SW4) == 0) //Button 4 was pressed
+  else if ((p2val & SW4) == 0){ //Button 4 was pressed
     sound_sequence_state = 3;
+  }
 }
 
 

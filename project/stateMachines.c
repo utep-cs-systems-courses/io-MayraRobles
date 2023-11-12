@@ -7,14 +7,109 @@
 
 static int cur_note = 0;
 
+void dim_green_state_advance()
+{
+  static int count = 0;
+  static int blinkLimitGreen = 7;  // duty cycle = 1/blinkLimit
+  static int blinkCountGreen = 0;  // cycles 0...blinkLimit-1
+
+  count ++;
+  blinkCountGreen ++;
+  
+  if (blinkCountGreen >= blinkLimitGreen) { // on for 1 interrupt period
+    blinkCountGreen = 0;
+    green_on = 1;
+  } else {          // off for blinkLimit - 1 interrupt periods
+     green_on = 0;
+  }
+   
+  if (count >= 500) {  // once each two seconds, to make brightness patterns change slower
+    count = 0;
+    blinkLimitGreen --; // increase duty cycle to go from dim-to-bright
+    if (blinkLimitGreen <= 0)    
+      blinkLimitGreen = 7;
+  }
+  led_update();  
+}
+
+
+void dim_red_state_advance()
+{
+  static int count = 0;
+  static int blinkLimitRed = 0;
+  static int blinkCountRed = 0;
+ 
+  count ++;
+  blinkCountRed ++;
+  if (blinkCountRed >= blinkLimitRed) { // on for 1 interrupt period
+    blinkCountRed = 0;
+    red_on = 1;
+  } else            // off for blinkLimit - 1 interrupt periods
+    red_on = 0;
+
+  if (count >= 500) {  // once each two seconds, to make brightness patterns change slower
+    count = 0;
+    blinkLimitRed ++;   // decrease duty cycle to go from bright-to-dim
+    if (blinkLimitRed >= 5)
+      blinkLimitRed = 0;       
+  }
+  led_update();
+}
+
+
+void siren_state_advance()
+{
+  static char siren_state = 0;
+  
+  switch(siren_state) {
+  case 0: // tone up 
+    green_on = 1;
+    red_on = 0;
+    buzzer_set_period(2760);
+    siren_state++;
+    break; 
+  case 1: // tone up
+    buzzer_set_period(2105);
+    siren_state++;
+    break;
+   case 2: // tone down  
+    green_on = 0;
+    red_on = 1;
+    buzzer_set_period(4000);
+    siren_state = 0;
+    break;
+  }
+  led_update();
+}
+
+
+void red_green_toggle_state_advance(char button_pressed)
+{
+  enum State {RED, GREEN};
+  static enum State cur_state = RED;
+  
+  /* up=keep same, down=change */
+  if (button_pressed){
+    if (cur_state == RED){
+      red_on = 1;
+      green_on = 0; 
+      cur_state = GREEN;
+    } else if (cur_state == GREEN){
+      green_on = 1;
+      red_on = 0;
+      cur_state = RED;
+    }
+  }
+}
+
 
 void binary_count_state_advance()
 {
-  static int binary_count = 0;
+  static int binary_count_state = 0;
 
-  binary_count = (binary_count + 1) % 4; // Increment binary count and take modulo
+  binary_count_state = (binary_count_state + 1) % 4; // Increment binary count and take modulo
 
-  switch (binary_count) {
+  switch (binary_count_state) {
   case 0:
     red_on = 0;
     green_on = 0;
@@ -34,7 +129,7 @@ void binary_count_state_advance()
   }
   led_update();
 }
-
+ 
 
 void update_blink_and_buzz(int frequency)
 {

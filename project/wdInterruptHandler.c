@@ -17,13 +17,18 @@ __interrupt_vec(WDT_VECTOR) WDT(){ /* 250 interrupts/sec */
     }
     break;
   case 1:
-    buzzer_set_period(1000);// start buzzing!!! 2MHz/1000 = 2kHz
+    if(secondCount >= 25) {
+      siren_state_advance();
+      secondCount = 0;
+    }
     break;
   case 2:
-    buzzer_set_period(1000);// start buzzing!!! 2MHz/1000 = 2kHz
+    buzzer_set_period(0);
+    dim_green_state_advance();
+    dim_red_state_advance();
     break;
   case 3:
-    buzzer_set_period(1000);// start buzzing!!! 2MHz/1000 = 2kH
+    buzzer_set_period(0);
     break;
   }
 }

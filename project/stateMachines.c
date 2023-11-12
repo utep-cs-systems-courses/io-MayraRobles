@@ -66,7 +66,7 @@ void siren_state_advance()
     green_on = 1;
     red_on = 0;
     led_update();
-    //buzzer_set_period(2760);
+    buzzer_set_period(2760);
     siren_state++;
     break; 
     /*case 1: // tone up
@@ -77,7 +77,7 @@ void siren_state_advance()
     green_on = 0;
     red_on = 1;
     led_update();
-    //buzzer_set_period(4000);
+    buzzer_set_period(4000);
     siren_state = 0;
     break;
   }

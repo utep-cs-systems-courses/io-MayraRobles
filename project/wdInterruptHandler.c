@@ -4,14 +4,14 @@
 #include "switches.h"
 #include "stateMachines.h"
 
-int secondCount = 0;
-char sound_sequence_state = 0;
+char button_sequence_state = 0;
 
 void
 __interrupt_vec(WDT_VECTOR) WDT(){ /* 250 interrupts/sec */
+  static int secondCount = 0;
   secondCount ++;
-  
-  switch(sound_sequence_state) {
+   
+  switch(button_sequence_state) {
   case 0:
     if(secondCount >= 40) {
       canon_in_D_state_advance();
@@ -30,7 +30,6 @@ __interrupt_vec(WDT_VECTOR) WDT(){ /* 250 interrupts/sec */
     dim_red_state_advance();
     break;
   case 3:
-    buzzer_set_period(0);
     break;
-  }
+   }
 }

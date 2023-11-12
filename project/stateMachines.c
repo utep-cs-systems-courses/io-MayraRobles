@@ -4,11 +4,38 @@
 #include "buzzer.h"
 #include "notes.h"
 
+
+void binary_count_state_advance()
+{
+  static binary_count = (binary_count + 1) % 4; // Increment binary count and take modulo
+
+  switch (binary_count) {
+  case 0:
+    red_on = 0;
+    green_on = 0;
+    break;
+  case 1:
+    red_on = 0;
+    green_on = 1;
+    break;
+  case 2:
+    red_on = 1;
+    green_on = 0;
+    break;
+  case 3:
+     red_on = 1;
+    green_on = 1;
+    break;
+}
+
+
 void update_blink_and_buzz(int frequency)
 {
   buzzer_set_period(frequency);
+  binary_count_state_advance();
   cur_note ++;
 }
+ 
 
 void canon_in_D_state_advance() /* Plays canon in D */
 {

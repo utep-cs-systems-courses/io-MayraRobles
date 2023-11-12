@@ -3,7 +3,7 @@
 #include "stateMachines.h"
 
 int secondCount = 0;
-char sound_sequence_state = 0;
+char sound_sequence_state = -1;
 
 void
 __interrupt_vec(WDT_VECTOR) WDT(){ /* 250 interrupts/sec */

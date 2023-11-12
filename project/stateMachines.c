@@ -5,9 +5,14 @@
 #include "notes.h"
 
 
+static int cur_note = 0;
+
+
 void binary_count_state_advance()
 {
-  static binary_count = (binary_count + 1) % 4; // Increment binary count and take modulo
+  static int binary_count = 0;
+
+  binary_count = (binary_count + 1) % 4; // Increment binary count and take modulo
 
   switch (binary_count) {
   case 0:
@@ -26,6 +31,8 @@ void binary_count_state_advance()
      red_on = 1;
     green_on = 1;
     break;
+  }
+  led_update();
 }
 
 
@@ -39,8 +46,6 @@ void update_blink_and_buzz(int frequency)
 
 void canon_in_D_state_advance() /* Plays canon in D */
 {
-  static int cur_note = 0;
- 
   switch (cur_note) {
   case 0:
     update_blink_and_buzz(A5);
@@ -169,7 +174,7 @@ void canon_in_D_state_advance() /* Plays canon in D */
     update_blink_and_buzz(0);
     break;
   case 42:
-    update_blink_and_buzzer(G4);
+    update_blink_and_buzz(B4);
     break;
   case 43:
     update_blink_and_buzz(0);
@@ -211,7 +216,7 @@ void canon_in_D_state_advance() /* Plays canon in D */
     update_blink_and_buzz(0);
     break;
   case 56:
-    update_blink_and_buzz(A4);
+    update_blink_and_buzz(G4);
     break;
   case 57:
     update_blink_and_buzz(0);
@@ -301,7 +306,7 @@ void canon_in_D_state_advance() /* Plays canon in D */
     update_blink_and_buzz(0);
     break;
   case 86:
-    update_blink_and_buzz(A4);
+    update_blink_and_buzz(B4);
     break;
   case 87:
     update_blink_and_buzz(0);
@@ -377,6 +382,7 @@ void canon_in_D_state_advance() /* Plays canon in D */
     break;
   case 111:
     update_blink_and_buzz(0);
+    cur_note = 0;
     break;
   } 
 }

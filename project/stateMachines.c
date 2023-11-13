@@ -7,6 +7,7 @@
 
 static int cur_note = 0;
 
+
 void dim_green_state_advance()
 {
   static int count = 0;
@@ -57,44 +58,15 @@ void dim_red_state_advance()
 }
 
 
-void siren_state_advance()
-{
-  static char siren_state = 0;
-  
-  switch(siren_state) {
-  case 0: // tone up 
-    green_on = 1;
-    red_on = 0;
-    led_update();
-    buzzer_set_period(2760);
-    siren_state++;
-    break; 
-    /*case 1: // tone up
-    buzzer_set_period(2105);
-    siren_state++;
-    break;*/
-  case 1: // tone down  
-    green_on = 0;
-    red_on = 1;
-    led_update();
-    buzzer_set_period(4000);
-    siren_state = 0;
-    break;
-  }
-}
-
-
 void red_green_toggle_state_advance()
 {
   enum State {RED, GREEN};
   static enum State cur_state = RED;
 
-  buzzer_set_period(1000);
   if (cur_state == RED){
     red_on = 1;
     green_on = 0;
-    //buzzer_set_period(1000);
-    //buzzer_set_period(A5);
+    buzzer_set_period(A5);
     cur_state = GREEN;
   } else if (cur_state == GREEN){
     green_on = 1;
@@ -102,8 +74,56 @@ void red_green_toggle_state_advance()
     buzzer_set_period(G5);
     cur_state = RED;
   }
-  led_update();
+   led_update();
 }
+
+void siren_state_advance()
+{
+  static char siren_state = 0;
+  static int cur_cycle = 500;
+  
+  switch(siren_state) {
+  case 0:
+    green_on = 1;
+    red_on = 0;
+    cur_cycle = 500;
+    siren_state ++;
+    break;
+  case 1:
+  case 2:
+    green_on = 0;
+    red_on = 1 ;
+    cur_cycle += 300;
+    siren_state ++;
+    break;
+  case 3:
+  case 4:
+    cur_cycle += 400;
+    siren_state ++;
+    break;
+  case 5:
+  case 6:
+    siren_state++;
+    break;
+  case 7:
+  case 8:
+    green_on = 1;
+    red_on = 0;
+    cur_cycle -= 500;
+    siren_state ++;
+    break;
+  case 9:
+    cur_cycle -= 300;
+    siren_state ++;
+    break;
+  case 10:
+    cur_cycle -= 200;
+    siren_state = 0;
+    break;
+  }
+  led_update();
+  buzzer_set_period(cur_cycle);
+}  
 
 
 void binary_count_state_advance()
@@ -112,7 +132,7 @@ void binary_count_state_advance()
 
   binary_count_state = (binary_count_state + 1) % 4; // Increment binary count and take modulo
 
-  switch (binary_count_state) {
+   switch (binary_count_state) {
   case 0:
     red_on = 0;
     green_on = 0;
@@ -143,7 +163,7 @@ void update_blink_and_buzz(int frequency)
  
 
 void canon_in_D_state_advance() /* Plays canon in D */
-{
+{ 
   switch (cur_note) {
   case 0:
     update_blink_and_buzz(A5);
